@@ -38,7 +38,7 @@ pipeline {
                 }
             } */
 
-        stage('Upload Code to IBM i') {
+        stage('Upload Code to Dev-machin') {
             steps {
                 sshagent(credentials: ['ibmi-ssh-creds-id']) {
                     sh '''
@@ -49,7 +49,7 @@ pipeline {
             }
         }
 
-        stage('Build on IBM i') {
+        stage('Build the artifact') {
             steps {
                 sshagent(credentials: ['ibmi-ssh-creds-id']) {
                     sh '''
@@ -59,7 +59,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to IBM i') {
+        stage('Deploy to Dev machine') {
             steps {
                     sshagent(credentials: ['ibmi-ssh-creds-id']) {
                         sh '''
@@ -81,7 +81,7 @@ pipeline {
                 }
             }
 
-        stage('Fetch Build Artifacts from IBM i') {
+        stage('Fetch Build Artifacts from Dev machine') {
             steps {
                     sshagent(credentials: ['ibmi-ssh-creds-id']) {
                         sh '''
