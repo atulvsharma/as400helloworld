@@ -61,6 +61,7 @@ pipeline {
 
         stage('List Files') {
             steps {
+                   sshagent(credentials: ['ibmi-ssh-creds-id']) {
                 sh 'ls -l /home/DEVUSR/as400helloworld'
                  }
             }
