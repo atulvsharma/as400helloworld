@@ -19,21 +19,24 @@ pipeline {
 
         stage('Static Code Analysis') {
             steps {
-                withSonarQubeEnv('sonar') {
-                    sh """
-                        ssh DEVUSR@150.238.118.254 '
-                        /QOpenSys/pkgs/bin/rpg-analyzer -src /home/DEVUSR/as400helloworld/qrpglesrc -report /home/DEVUSR/sonar-report.json
-                        '
-                    scp DEVUSR@150.238.118.254:/home/DEVUSR/sonar-report.json sonar-report.json
+                sshagent(credentials: ['ibmi-ssh-creds-id']) {
+                    withSonarQubeEnv('sonar') {
+                        sh """
+                            ssh DEVUSR@150.238.118.254 '
+                            /QOpenSys/pkgs/bin/rpg-analyzer -src DEVUSR/qrpglesrc -report /home/DEVUSR/sonar-report.json
+                            '
 
-                    sonar-scanner \
-                    -Dsonar.projectKey=AS400_HelloWorld \
-                    -Dsonar.sources=. \
-                    -Dsonar.externalIssuesReportPaths=sonar-report.json
-                    """
-        }
-    }
-}
+                            scp DEVUSR@150.238.118.254:/home/DEVUSR/sonar-report.json sonar-report.json
+
+                            sonar-scanner \
+                            -Dsonar.projectKey=AS400_HelloWorld \
+                            -Dsonar.sources=. \
+                            -Dsonar.externalIssuesReportPaths=sonar-report.json
+                            """
+                        }
+                    }
+                }
+            }
 
         stage('Upload Code to IBM i') {
             steps {
