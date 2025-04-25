@@ -64,7 +64,7 @@ pipeline {
                     sshagent(credentials: ['ibmi-ssh-creds-id']) {
                         sh '''
                             # On IBM i: copy/move into production library
-                            ssh $IBM_USER@$IBM_HOST "system 'DLTOBJ OBJ(HELLOWORLD) OBJTYPE(*PGM)'; system 'CRTDUPOBJ OBJ(HELLOWORLD) FROMLIB(CMPSYS) OBJTYPE(*PGM) TOLIB(PRODLIB) NEWOBJ(HELLOWORLD)'"
+                            ssh $IBM_USER@$IBM_HOST "system 'DLTPGM OBJ(CMPSYS/HELLOWORLD)'; system 'CRTDUPOBJ OBJ(HELLOWORLD) FROMLIB(CMPSYS) OBJTYPE(*PGM) TOLIB(PRODLIB) NEWOBJ(HELLOWORLD)'"
                             '''
                         }
                     }
