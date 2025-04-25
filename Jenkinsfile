@@ -19,7 +19,7 @@ pipeline {
 
         stage('Static Code Analysis') {
             steps {
-                withSonarQubeEnv('MySonarQubeServer') {
+                withSonarQubeEnv('sonar') {
                     sh """
                         ssh DEVUSR@150.238.118.254 '
                         /QOpenSys/pkgs/bin/rpg-analyzer -src /home/DEVUSR/as400helloworld/qrpglesrc -report /home/DEVUSR/sonar-report.json
