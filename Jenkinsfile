@@ -6,13 +6,7 @@ pipeline {
         REMOTE_DIR = "/home/${IBM_USER}/as400helloworld"
     }
     stages {
-        stage('Checkout Code') {
-            steps {
-                git url: 'atulvsharma@github.com:atulvsharma/as400helloworld.git'
-            }
-        }
-
-        stage('Prepare Host Key') {
+         stage('Prepare Host Key') {
             steps {
                 sshagent(credentials: ['ibmi-ssh-creds-id']) {
                     sh '''
