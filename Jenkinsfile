@@ -69,18 +69,23 @@ pipeline {
                 }
             }
 
-
-         stage('Archive Build Artifacts') {
+        stage('Fetch Build Artifacts from IBM i') {
             steps {
-                script {
-                    // Use absolute paths for artifact locations
-                    def artifacts = '/home/DEVUSR/as400helloworld/**/*.pgm, /home/DEVUSR/as400helloworld/**/*.log, /home/DEVUSR/as400helloworld/**/*.lst'
-
-                    // Archive the artifacts
-                    archiveArtifacts artifacts
-                }
+                    sshagent(credentials: ['ibmi-ssh-creds-id']) {
+                        sh '''
+                            mkdir -p ibmi-artifacts
+                            scp DEVUSR@150.238.118.254:/home/DEVUSR/as400helloworld/**/*.pgm ibmi-artifacts/ || true
+                            scp DEVUSR@150.238.118.254:/home/DEVUSR/as400helloworld/**/*.log ibmi-artifacts/ || true
+                            scp DEVUSR@150.238.118.254:/home/DEVUSR/as400helloworld/**/*.lst ibmi-artifacts/ || true
+                            '''
+                        }
+                    }
             }
-        }
 
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'ibmi-artifacts/**/*.*', allowEmptyArchive: true
+                  }
+            }
     }
 }
