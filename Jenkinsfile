@@ -63,11 +63,10 @@ pipeline {
             steps {
                     sshagent(credentials: ['ibmi-ssh-creds-id']) {
                         sh '''
-                            # Copy object or source members (if any) to target location
-                            scp ibmi-artifacts/*.pgm $IBM_USER@$IBM_HOST:/home/$IBM_USER/PRODLIB/
-
                             # On IBM i: copy/move into production library
                             ssh $IBM_USER@IBM_HOST "
+                            DLTOBJ OBJ(HELLOWORLD) OBJTYPE(*PGM)
+                            MONMSG MSG(CPF0000)
                             CRTDUPOBJ OBJ(HELLOWORLD) FROMLIB(CMPSYS) OBJTYPE(*PGM) TOLIB(PRODLIB) NEWOBJ(HELLOWORLD) 
                             "
                             '''
