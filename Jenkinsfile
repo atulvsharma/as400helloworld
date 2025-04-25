@@ -61,11 +61,14 @@ pipeline {
 
         stage('List Files') {
             steps {
-                   sshagent(credentials: ['ibmi-ssh-creds-id']) {
-                sh 'ls -l /home/DEVUSR/as400helloworld'
-                 }
+                sshagent(credentials: ['ibmi-ssh-creds-id']) {
+                    sh '''
+                        ssh $IBM_USER@$IBM_HOST "ls -l /home/$IBM_USER/as400helloworld"
+                        '''
+                        }
                 }
             }
+
 
         stage('Archive Build Artifacts') {
             steps {
