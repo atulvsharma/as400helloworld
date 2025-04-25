@@ -74,9 +74,9 @@ pipeline {
                     sshagent(credentials: ['ibmi-ssh-creds-id']) {
                         sh '''
                             mkdir -p ibmi-artifacts
-                            scp DEVUSR@150.238.118.254:/home/DEVUSR/as400helloworld/**/*.pgm ibmi-artifacts/ || true
-                            scp DEVUSR@150.238.118.254:/home/DEVUSR/as400helloworld/**/*.log ibmi-artifacts/ || true
-                            scp DEVUSR@150.238.118.254:/home/DEVUSR/as400helloworld/**/*.lst ibmi-artifacts/ || true
+                            scp $IBM_USER@$IBM_HOST:/home/$IBM_USER/as400helloworld/**/*.pgm ibmi-artifacts/ || true
+                            scp $IBM_USER@$IBM_HOST:/home/$IBM_USER/as400helloworld/**/*.log ibmi-artifacts/ || true
+                            scp $IBM_USER@$IBM_HOST:/home/$IBM_USER/as400helloworld/**/*.lst ibmi-artifacts/ || true
                             '''
                         }
                     }
