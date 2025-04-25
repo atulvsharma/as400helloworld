@@ -59,6 +59,12 @@ pipeline {
             }
         }
 
+        stage('List Files') {
+            steps {
+                sh 'ls -l /home/DEVUSR/as400helloworld'
+                 }
+            }
+
         stage('Archive Build Artifacts') {
             steps {
                 script {
