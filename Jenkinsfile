@@ -59,5 +59,18 @@ pipeline {
             }
         }
 
+        stage('Archive Build Artifacts') {
+            steps {
+                script {
+                    // Define the list of files to archive
+                    def artifacts = '**/*.pgm, **/*.log, **/*.lst'
+
+                    // Archive the artifacts
+                    archiveArtifacts artifacts
+                }
+            }
+        }
+
+
     }
 }
