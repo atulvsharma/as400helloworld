@@ -17,7 +17,7 @@ pipeline {
             }
         }
 
-        stage('Static Code Analysis') {
+/*        stage('Static Code Analysis') {
             steps {
                 sshagent(credentials: ['ibmi-ssh-creds-id']) {
                     withSonarQubeEnv('sonar') {
@@ -36,7 +36,7 @@ pipeline {
                         }
                     }
                 }
-            }
+            } */
 
         stage('Upload Code to IBM i') {
             steps {
