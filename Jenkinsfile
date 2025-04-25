@@ -38,7 +38,7 @@ pipeline {
                 }
             } */
 
-        stage('Upload Code to Dev-machin') {
+        stage('Upload Code to Dev-machine') {
             steps {
                 sshagent(credentials: ['ibmi-ssh-creds-id']) {
                     sh '''
