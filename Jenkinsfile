@@ -64,6 +64,7 @@ pipeline {
                    sshagent(credentials: ['ibmi-ssh-creds-id']) {
                 sh 'ls -l /home/DEVUSR/as400helloworld'
                  }
+                }
             }
 
         stage('Archive Build Artifacts') {
