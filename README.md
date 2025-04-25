@@ -1,2 +1,2 @@
 # as400helloworld
-This repo is used for HelloWorld SQLRPGLE program 
+This repo is used for HelloWorld SQLRPGLE program.
