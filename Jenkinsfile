@@ -63,7 +63,7 @@ pipeline {
             steps {
                 script {
                     // Define the list of files to archive
-                    def artifacts = '**/*pgm, **/*log, **/*lst'
+                    def artifacts = '*pgm, **/*log, **/*lst'
 
                     // Archive the artifacts
                     archiveArtifacts artifacts
