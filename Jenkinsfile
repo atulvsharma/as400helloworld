@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git credentialsId: 'github-creds-id', url: 'git@github.com:atulvsharma/as400helloworld.git'
+                git url: 'atulvsharma@github.com:atulvsharma/as400helloworld.git'
             }
         }
 
