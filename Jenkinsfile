@@ -70,18 +70,17 @@ pipeline {
             }
 
 
-        stage('Archive Build Artifacts') {
+         stage('Archive Build Artifacts') {
             steps {
                 script {
-                    // Define the list of files to archive
-                    def artifacts = '*pgm, **/*log, **/*lst'
+                    // Use absolute paths for artifact locations
+                    def artifacts = '/home/DEVUSR/as400helloworld/**/*.pgm, /home/DEVUSR/as400helloworld/**/*.log, /home/DEVUSR/as400helloworld/**/*.lst'
 
                     // Archive the artifacts
                     archiveArtifacts artifacts
                 }
             }
         }
-
 
     }
 }
