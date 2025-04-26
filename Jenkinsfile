@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IBM_HOST = '150.238.118.254'           // Replace with your public IP or DNS
+        IBM_HOST = '150.238.118.254'           // Public IP or DNS
         IBM_USER = 'DEVUSR'                    // Your IBM i username
         REMOTE_DIR = "/home/${IBM_USER}/as400helloworld"
     }

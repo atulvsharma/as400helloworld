@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+        environment {
+        IBM_HOST = '150.238.118.254'           // Replace with your public IP or DNS
+        IBM_USER = 'DEVUSR'                    // Your IBM i username
+        REMOTE_DIR = "/home/${IBM_USER}/as400helloworld"
+        }
+
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/atulvsharma/as400helloworld.git'
+            }
+        }
+
+        stage('Static Code Analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh 'sonar-scanner -Dsonar.projectKey=as400helloworld -Dsonar.sources=src'
+                }
+            }
+        }
+
+        stage('Build (Compile on IBM i)') {
+            steps {
+                sshagent(['ibmi-ssh-credentials']) {
+                    sh '''
+                    ssh ibmi-user@ibmi-host "CRTBNDRPG PGM(DEVUSR/PROGRAM1) SRCFILE(DEVUSR/QRPGLESRC)"
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to Test') {
+            steps {
+                sshagent(['ibmi-ssh-credentials']) {
+                    sh 'ssh ibmi-user@ibmi-host "SBMJOB CMD(CALL PGM(DEVUSR/DEPTOTEST))"'
+                }
+            }
+        }
+
+        stage('Automated Unit Tests') {
+            steps {
+                sshagent(['ibmi-ssh-credentials']) {
+                    sh 'ssh ibmi-user@ibmi-host "CALL DEVUNIT/UNTTSTRUN"'
+                }
+            }
+        }
+
+        stage('Approval for Prod Deployment') {
+            steps {
+                input message: 'Deploy to Production?'
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                sshagent(['ibmi-ssh-credentials']) {
+                    sh 'ssh ibmi-user@ibmi-host "SBMJOB CMD(CALL PGM(DEVUSR/DEPTOPROD))"'
+                }
+            }
+        }
+    }
+}
